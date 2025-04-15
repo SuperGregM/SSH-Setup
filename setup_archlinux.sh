@@ -69,17 +69,19 @@ BACKGROUND_WHITE="\x1B[47m"
 
 # * Test if the script needs sudo
 printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Checking if needs sudo"
-if [ "$(id -u)" -ne 0 ]; then
-    sudo_if_user="sudo"
-else
-    sudo_if_user=""
-fi
+sudo_if_user() {
+    if [ "$(id -u)" -ne 0 ]; then
+        sudo "$@"
+    else
+        "$@"
+    fi
+}
 
 # * Install OpenSSH
 printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Installing OpenSSH"
-"$sudo_if_user" pacman -Syyu openssh --needed --noconfirm
-"$sudo_if_user" systemctl enable sshd
-"$sudo_if_user" systemctl start sshd
+sudo_if_user pacman -Syyu openssh --needed --noconfirm
+sudo_if_user systemctl enable sshd
+sudo_if_user systemctl start sshd
 
 # * Setup SSH config
 printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Setting up SSH config"
@@ -91,7 +93,7 @@ if [ ! -d "${ssh_config_path}" ]; then
     exit 1
 else
     printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Setup SSH conf file"
-    cat <<EOF >"${ssh_config_file}"
+    sudo_if_user cat <<EOF >"${ssh_config_file}"
 # Personal SSH config
 
 # Enable root login
