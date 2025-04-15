@@ -86,7 +86,7 @@ sudo_if_user systemctl start sshd
 # * Setup SSH config
 printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Setting up SSH config"
 ssh_config_path="/etc/ssh/sshd_config.d"
-ssh_config_file="${ssh_config_path}/01-Personal-Settings.conf"
+ssh_config_file="${ssh_config_path}/000-Personal-Settings.conf"
 if [ ! -d "${ssh_config_path}" ]; then
     printf "$TEXT_RED\n%s\n$FORMAT_RESET" "SSH config path $ssh_config_path does not exist"
     printf "$TEXT_RED\n%s\n$FORMAT_RESET" "Exiting"
@@ -105,3 +105,5 @@ PubkeyAuthentication yes
 
 EOF
 fi
+
+printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Reboot System for SSH service to take effect"
