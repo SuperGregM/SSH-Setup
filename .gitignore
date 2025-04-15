@@ -5,7 +5,7 @@
 
 #Keep these files
 !.gitignore
-!My-Linux-ssh-Setup-Scripts.code-workspace
+!SSH-Setup.code-workspace
 
 !README.md
 
