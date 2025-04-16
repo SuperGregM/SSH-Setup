@@ -92,8 +92,9 @@ if [ ! -d "${ssh_config_path}" ]; then
     printf "$TEXT_RED\n%s\n$FORMAT_RESET" "Exiting"
     exit 1
 else
-    printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Setup SSH conf file"
-    sudo_if_user cat <<EOF >"${ssh_config_file}"
+    if [ ! -d "${ssh_config_file}" ]; then
+        printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Setup SSH conf file"
+        sudo_if_user cat <<EOF >"${ssh_config_file}"
 # Personal SSH config
 
 # Enable root login
@@ -104,6 +105,7 @@ PasswordAuthentication yes
 PubkeyAuthentication yes
 
 EOF
+    fi
 fi
 
 # * Comment out remote-login.sh for SSH connections
