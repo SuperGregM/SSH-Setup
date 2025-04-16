@@ -117,7 +117,7 @@ fi
 
 # /etc/profile.d/custom-bash-options.sh
 
-if [ ! -f "/etc/profile.d/custom-bash-options.sh" ]; then
+if [ -f "/etc/profile.d/custom-bash-options.sh" ]; then
     printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Commenting out remote-login.sh on ssh connection"
     awk '
           BEGIN { block=0 }
