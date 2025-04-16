@@ -80,8 +80,7 @@ sudo_if_user() {
 # * Install OpenSSH
 printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Installing OpenSSH"
 sudo_if_user pacman -Syyu openssh --needed --noconfirm
-sudo_if_user systemctl enable sshd
-sudo_if_user systemctl start sshd
+sudo_if_user systemctl enable --now sshd.service
 
 # * Setup SSH config
 printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Setting up SSH config"
