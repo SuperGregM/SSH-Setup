@@ -106,4 +106,23 @@ PubkeyAuthentication yes
 EOF
 fi
 
+# * Comment out remote-login.sh for SSH connections
+# run remote-login.sh on ssh connection
+# if [[ -z "${STY}" && -n "${SSH_TTY}" && "$(grep -w 'archboot' /etc/hostname)" ]]; then
+#     /usr/bin/remote-login.sh
+#     exit 0
+# fi
+
+# /etc/profile.d/custom-bash-options.sh
+
+printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Commenting out remote-login.sh on ssh connection"
+awk '
+          BEGIN { block=0 }
+          /^# run remote-login\.sh on ssh connection$/ { block=1 }
+          block && /^fi$/ { print "#" $0; block=0; next }
+          block { print "#" $0; next }
+          { print }
+      ' "/etc/profile.d/custom-bash-options.sh" >"/etc/profile.d/arch_boot_ssh_bug"
+sudo_if_user mv "/etc/profile.d/arch_boot_ssh_bug" "/etc/profile.d/custom-bash-options.sh"
+
 printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Reboot System for SSH service to take effect"
