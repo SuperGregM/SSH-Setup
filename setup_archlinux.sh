@@ -80,7 +80,6 @@ sudo_if_user() {
 # * Install OpenSSH
 printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Installing OpenSSH"
 sudo_if_user pacman -Syyu openssh --needed --noconfirm
-sudo_if_user systemctl enable --now sshd.service
 
 # * Setup SSH config
 printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Setting up SSH config"
@@ -107,6 +106,10 @@ EOF
     fi
 fi
 
+# * Enable SSH service
+printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Enabling SSH service"
+sudo_if_user systemctl enable --now sshd.service
+
 # * Comment out remote-login.sh for SSH connections
 # run remote-login.sh on ssh connection
 # if [[ -z "${STY}" && -n "${SSH_TTY}" && "$(grep -w 'archboot' /etc/hostname)" ]]; then
@@ -127,5 +130,3 @@ if [ -f "/etc/profile.d/custom-bash-options.sh" ]; then
       ' "/etc/profile.d/custom-bash-options.sh" >"/etc/profile.d/arch_boot_ssh_bug"
     sudo_if_user mv "/etc/profile.d/arch_boot_ssh_bug" "/etc/profile.d/custom-bash-options.sh"
 fi
-
-printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Reboot System for SSH service to take effect"
