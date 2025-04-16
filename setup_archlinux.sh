@@ -128,3 +128,4 @@ awk '
 sudo_if_user mv "/etc/profile.d/arch_boot_ssh_bug" "/etc/profile.d/custom-bash-options.sh"
 
 printf "$TEXT_GREEN\n%s\n$FORMAT_RESET" "Reboot System for SSH service to take effect"
+
